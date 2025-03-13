@@ -20,10 +20,6 @@ export class UserRepository {
   async update(id: string, user: Partial<User>) {
     const { firstName, lastName, email, phone, birthday } = user;
 
-    if (!id) {
-      throw new Error("User ID is required for updating");
-    }
-
     return await sql`UPDATE users SET first_name = ${firstName}, last_name = ${lastName}, email = ${email}, phone = ${phone}, birthday = ${birthday} WHERE id = ${id} RETURNING *`;
   }
 
