@@ -3,19 +3,37 @@ import { UserRepository } from "../../data/repositories/user.repository";
 
 export class UserService {
   userRepository = new UserRepository();
-  async listAll(): Promise<User[]> {
-    return this.userRepository.list();
+  async listAll(): Promise<User[] | null> {
+    const users = await this.userRepository.list();
+    console.log(users);
+    if (!users) return null;
+    return users.map((user: Record<string, any>) => UserService.toUser(user));
   }
 
-  async getById(id: string): Promise<User> {
-    return this.userRepository.getBy({ id });
+  async getById(id: string): Promise<User | null> {
+    const user = await this.userRepository.getById(id);
+    if (!user) return null;
+    return UserService.toUser(user);
   }
 
-  async createOrUpdate(user: Partial<User>): Promise<User> {
-    return this.userRepository.createOrUpdate(user);
+  async create(user: Partial<User>): Promise<User | null> {
+    const userTable = await this.userRepository.create(user);
+    if (!user) return null;
+    return UserService.toUser(userTable);
   }
 
   async delete(id: string): Promise<void> {
-    return this.userRepository.delete(id);
+    await this.userRepository.delete(id);
+  }
+
+  static toUser(user: Record<string, any>): User {
+    return {
+      id: user.id,
+      firstName: user.first_name,
+      lastName: user.last_name,
+      email: user.email,
+      phone: user.phone,
+      birthday: user.birthday,
+    };
   }
 }

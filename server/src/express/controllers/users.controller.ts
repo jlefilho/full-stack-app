@@ -24,7 +24,7 @@ export class UsersController {
 
     router.post("/", (req: Request, res: Response, next: NextFunction) => {
       new UserService()
-        .createOrUpdate(req.body)
+        .create(req.body)
         .then((result) => res.status(201).json(result))
         .catch(next);
     });
