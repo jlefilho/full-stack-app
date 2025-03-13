@@ -8,7 +8,7 @@ export class UserRepository {
   }
 
   async getById(id: string) {
-    return await sql`SELECT * from users WHERE id="${id}"`;
+    return await sql`SELECT * from users WHERE id = ${id} limit 1`;
   }
 
   async create(user: Partial<User>) {
@@ -27,6 +27,6 @@ export class UserRepository {
   }
 
   async delete(id: string) {
-    return await sql`DELETE from users WHERE id="${id}"`;
+    return await sql`DELETE from users WHERE id = ${id}`;
   }
 }

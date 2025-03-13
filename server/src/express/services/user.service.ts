@@ -5,7 +5,6 @@ export class UserService {
   userRepository = new UserRepository();
   async listAll(): Promise<User[] | null> {
     const users = await this.userRepository.list();
-    console.log(users);
     if (!users) return null;
     return users.map((user: Record<string, any>) => UserService.toUser(user));
   }
@@ -13,7 +12,7 @@ export class UserService {
   async getById(id: string): Promise<User | null> {
     const user = await this.userRepository.getById(id);
     if (!user) return null;
-    return UserService.toUser(user);
+    return UserService.toUser(user[0]);
   }
 
   async create(user: Partial<User>): Promise<User | null> {

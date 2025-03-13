@@ -32,7 +32,7 @@ export class UsersController {
     router.delete("/:id", (req: Request, res: Response, next: NextFunction) => {
       new UserService()
         .delete(req.params.id)
-        .then(() => res.status(202))
+        .then(() => res.status(202).end())
         .catch(next);
     });
 
