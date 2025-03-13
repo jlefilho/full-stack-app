@@ -23,7 +23,6 @@ export class UserService {
 
   async update(id: string, user: Partial<User>): Promise<User | null> {
     const userTable = await this.userRepository.update(id, user);
-    console.log(userTable);
     if (!user) return null;
     return UserService.toUser(userTable[0]);
   }
