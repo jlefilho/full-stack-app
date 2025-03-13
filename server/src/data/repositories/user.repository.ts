@@ -4,11 +4,11 @@ import sql from "../../db/db";
 
 export class UserRepository {
   async list() {
-    return await sql`SELECT * from users`;
+    return await sql`SELECT * FROM users`;
   }
 
   async getById(id: string) {
-    return await sql`SELECT * from users WHERE id = ${id} limit 1`;
+    return await sql`SELECT * FROM users WHERE id = ${id} LIMIT 1`;
   }
 
   async create(user: Partial<User>) {
@@ -17,13 +17,14 @@ export class UserRepository {
     return await sql`INSERT INTO users (id, first_name, last_name, email, phone, birthday) VALUES (${uuid}, ${user.firstName}, ${user.lastName}, ${user.email}, ${user.phone}, ${user.birthday})`;
   }
 
-  async update(user: Partial<User>): Promise<User> {
-    // const [userInstance, _] = await UserTable.upsert({
-    //   id: user.id || uuidv4(),
-    //   ...user,
-    // });
-    // return userInstance;
-    return {} as User;
+  async update(id: string, user: Partial<User>) {
+    const { firstName, lastName, email, phone, birthday } = user;
+
+    if (!id) {
+      throw new Error("User ID is required for updating");
+    }
+
+    return await sql`UPDATE users SET first_name = ${firstName}, last_name = ${lastName}, email = ${email}, phone = ${phone}, birthday = ${birthday} WHERE id = ${id} RETURNING *`;
   }
 
   async delete(id: string) {

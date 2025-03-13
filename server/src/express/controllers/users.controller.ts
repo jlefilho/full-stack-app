@@ -29,10 +29,17 @@ export class UsersController {
         .catch(next);
     });
 
+    router.put("/:id", (req: Request, res: Response, next: NextFunction) => {
+      new UserService()
+        .update(req.params.id, req.body)
+        .then((result) => res.status(204).json(result))
+        .catch(next);
+    });
+
     router.delete("/:id", (req: Request, res: Response, next: NextFunction) => {
       new UserService()
         .delete(req.params.id)
-        .then(() => res.status(202).end())
+        .then(() => res.status(202).send())
         .catch(next);
     });
 

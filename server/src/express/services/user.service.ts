@@ -18,7 +18,14 @@ export class UserService {
   async create(user: Partial<User>): Promise<User | null> {
     const userTable = await this.userRepository.create(user);
     if (!user) return null;
-    return UserService.toUser(userTable);
+    return UserService.toUser(userTable[0]);
+  }
+
+  async update(id: string, user: Partial<User>): Promise<User | null> {
+    const userTable = await this.userRepository.update(id, user);
+    console.log(userTable);
+    if (!user) return null;
+    return UserService.toUser(userTable[0]);
   }
 
   async delete(id: string): Promise<void> {
