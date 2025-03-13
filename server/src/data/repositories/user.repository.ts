@@ -14,7 +14,7 @@ export class UserRepository {
   async create(user: Partial<User>) {
     const uuid = uuidv4();
 
-    return await sql`INSERT INTO users (id, first_name, last_name, email, phone, birthday) VALUES (${uuid}, ${user.firstName}, ${user.lastName}, ${user.email}, ${user.phone}, ${user.birthday})`;
+    return await sql`INSERT INTO users (id, first_name, last_name, email, phone, birthday) VALUES (${uuid}, ${user.firstName}, ${user.lastName}, ${user.email}, ${user.phone}, ${user.birthday}) RETURNING *`;
   }
 
   async update(id: string, user: Partial<User>) {
